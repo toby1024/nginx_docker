@@ -4,7 +4,7 @@ FROM  daocloud.io/daocloud/nginx-proxy
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata && \
     #换成163源
-    wget http://mirrors.163.com/.help/sources.list.jessie -O /etc/apt/sources.list && \
+    # wget http://mirrors.163.com/.help/sources.list.jessie -O /etc/apt/sources.list && \
     #开启ll快捷命令代替ls -l
     echo "alias ll='ls \$LS_OPTIONS -l'" >> ~/.bashrc && \
     apt-get update && \
@@ -27,8 +27,6 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     sed -i "s@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g" /etc/pam.d/sshd && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    #设置ssh密码
-    echo "root:POloXM1980!@&" | chpasswd && \
     #编辑/etc/crontab,修改cron.daily启动logrotate的时间
     sed -i 's/^[0-9]\+.*[0-9]\+\(.*\/etc\/cron\.daily.*$\)/59 23\1/g' /etc/crontab && \
     #修改logrotate配置,增加-f参数,强制执行日志切分
